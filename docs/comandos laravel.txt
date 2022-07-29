@@ -1,0 +1,9 @@
+1. antes de ejecutar las migraciones (configurar)
+    > php artisan migrate
+2. Generamos un controller AuthController
+    > php artisan make:controller AuthController
+3. Registrar las rutas (routes/api.php) o end point
+    POST /api/v1/auth/registro
+    POST /api/v1/auth/login
+    POST /api/v1/auth/logout
+    GET /api/v1/auth/perfil
