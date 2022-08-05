@@ -11,3 +11,7 @@ git remote add origin https://github.com/cchura94/back_laravel_vue.git
 git add .
 git commit -m "Auth Api Rest laravel"
 git push origin master
+
+
+----------------------
+git pull origin master
