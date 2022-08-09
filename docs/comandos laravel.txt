@@ -7,3 +7,23 @@
     POST /api/v1/auth/login
     POST /api/v1/auth/logout
     GET /api/v1/auth/perfil
+
+4. Generar los models + migraciones
+    > php artisan make:model Categoria -m
+    > php artisan make:model Producto -m
+    > php artisan make:model Cliente -m
+    > php artisan make:model Pedido -m
+  - para la tabla relacion (pivot) no tiene model
+    > php artisan make:migration create_pedido_producto_table
+
+5. Generar los controller
+    > php artisan make:controller CategoriaController --api
+    > php artisan make:controller ProductoController --api
+    > php artisan make:controller ClienteController --api
+    > php artisan make:controller PedidoController --api
+6. rutas
+
+    Route::apiResource("categoria", CategoriaController::class);
+    Route::apiResource("producto", ProductoController::class);
+    Route::apiResource("cliente", ClienteController::class);
+    Route::apiResource("pedido", PedidoController::class);

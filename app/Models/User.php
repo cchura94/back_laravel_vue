@@ -48,4 +48,9 @@ class User extends Authenticatable
             return "username"
         }
     */
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
 }
