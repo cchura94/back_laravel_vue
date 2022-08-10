@@ -1,0 +1,11 @@
+PUT http://127.0.0.1:8000/api/producto/2
+Accept: application/json
+Content-Type: application/json
+
+{
+    "nombre": "MOUSE HP",
+    "precio": 50,
+    "stock": 20,
+    "categoria_id": 1,
+    "descripcion": "desc modificado"
+}

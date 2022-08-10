@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -11,9 +12,12 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // localhost:8000/api/producto?page=1
+        // $filas = $request->rows;
+        $productos = Producto::paginate(10);
+        return response()->json($productos, 200);
     }
 
     /**
@@ -24,7 +28,31 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validar
+        $request->validate([
+            "nombre" => "required|string|max:100|min:2",
+            "categoria_id" => "required"
+        ]);
+        // subir imagen
+        $imagen = "";
+        if($file = $request->file("imagen")){
+            $direccion_imagen = time(). "-" .$file->getClientOriginalName();
+            $file->move("imagenes/", $direccion_imagen);
+
+            $imagen = "imagenes/". $direccion_imagen;
+        }
+        // guardar datos 
+        $producto = new Producto();
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->descripcion = $request->descripcion;
+        $producto->imagen = $imagen;
+        $producto->save();
+        // respuesta
+
+        return response()->json(["mensaje" => "Producto registrado"], 201);
     }
 
     /**
@@ -35,7 +63,10 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        //
+        $producto = Producto::with("categoria")->findOrFail($id);
+        // $producto = Producto::findOrFail($id);
+        // $producto->categoria;
+        return response()->json($producto, 200);
     }
 
     /**
@@ -47,7 +78,35 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // return $request;
+         // validar
+         $request->validate([
+            "nombre" => "required|string|max:100|min:2",
+            "categoria_id" => "required"
+        ]);
+        
+        // guardar datos 
+        $producto = Producto::find($id);
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->descripcion = $request->descripcion;
+
+        // subir imagen
+        // $imagen = $producto->imagen;
+        if($file = $request->file("imagen")){
+            $direccion_imagen = time(). "-" .$file->getClientOriginalName();
+            $file->move("imagenes/", $direccion_imagen);
+
+            $imagen = "imagenes/". $direccion_imagen;
+            $producto->imagen = $imagen;
+        }
+
+        $producto->update();
+        // respuesta
+
+        return response()->json(["mensaje" => "Producto actualizado"], 200);
     }
 
     /**
@@ -58,6 +117,9 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+
+        return response()->json(["mensaje" => "Producto eliminado"], 200);
     }
 }
