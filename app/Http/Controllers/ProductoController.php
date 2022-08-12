@@ -16,7 +16,7 @@ class ProductoController extends Controller
     {
         // localhost:8000/api/producto?page=1
         // $filas = $request->rows;
-        $productos = Producto::with('categoria')->paginate(10);
+        $productos = Producto::with('categoria')->paginate(5);
         return response()->json($productos, 200);
     }
 
