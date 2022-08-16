@@ -137,6 +137,7 @@ class ProductoController extends Controller
 
     public function actualizarImagen(Request $request, $id)
     {
+        return $request;
         $imagen = "";
         if($file = $request->file("imagen")){
             $direccion_imagen = time(). "-" .$file->getClientOriginalName();
