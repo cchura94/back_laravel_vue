@@ -25,6 +25,9 @@ Route::group(['prefix' => 'v1/auth'], function(){
     });
 });
 
+// actualizar imagen
+Route::put("producto/{id_prod}/actualizar-img", [ProductoController::class, "actualizarImagen"]);
+
 // CRUD API
 Route::apiResource("categoria", CategoriaController::class);
 Route::apiResource("producto", ProductoController::class);
