@@ -14,9 +14,21 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-        // localhost:8000/api/producto?page=1
-        // $filas = $request->rows;
-        $productos = Producto::with('categoria')->paginate(5);
+        // localhost:8000/api/producto?page=1&rows=10
+        if($request->rows){
+            $filas = $request->rows;
+        }else{
+            $filas = 5;
+        }
+        if($request->q){
+            $productos = Producto::orWhere('nombre', 'like', '%'.$request->q.'%')
+                                    ->orWhere('precio', 'like', '%'.$request->q.'%')
+                                    ->with('categoria')
+                                    ->paginate($filas);
+        }else{
+            $productos = Producto::with('categoria')->paginate($filas);
+
+        }
         return response()->json($productos, 200);
     }
 
