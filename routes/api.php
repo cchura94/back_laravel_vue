@@ -25,14 +25,16 @@ Route::group(['prefix' => 'v1/auth'], function(){
     });
 });
 
-// actualizar imagen
-Route::put("producto/{id_prod}/actualizar-img", [ProductoController::class, "actualizarImagen"]);
+Route::group(["middleware" => "auth:sanctum"], function(){
+    // actualizar imagen
+    Route::put("producto/{id_prod}/actualizar-img", [ProductoController::class, "actualizarImagen"]);
 
-// CRUD API
-Route::apiResource("categoria", CategoriaController::class);
-Route::apiResource("producto", ProductoController::class);
-Route::apiResource("cliente", ClienteController::class);
-Route::apiResource("pedido", PedidoController::class);
+    // CRUD API
+    Route::apiResource("categoria", CategoriaController::class);
+    Route::apiResource("producto", ProductoController::class); //->middleware("role:admin");
+    Route::apiResource("cliente", ClienteController::class);
+    Route::apiResource("pedido", PedidoController::class);
+});
 
 
 Route::get("/no-autorizado", function(){
