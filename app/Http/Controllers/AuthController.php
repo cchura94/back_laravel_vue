@@ -35,6 +35,22 @@ class AuthController extends Controller
         ]);        
     }
 
+    public function refreshToken(Request $request)
+    {
+        $usuario = $request->user();        
+        $tokenResult = $usuario->createToken('Personal token');
+        $token = $tokenResult->plainTextToken;
+        
+        Auth::user()->tokens()->delete();
+
+        return response()->json([
+            'access_token' => $token,
+            'usuario' => $usuario,
+            'token_type' => 'Bearer'
+        ]);        
+    }
+
+
     public function registro(Request $request)
     {
         # guardar un nuevo user en la BD

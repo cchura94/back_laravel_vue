@@ -51,7 +51,7 @@ class PedidoController extends Controller
             $productos = $request->productos;
             foreach ($productos as $prod) {
                 // attach
-                $pedido->productos()->attach($prod['id_producto'], ["cantidad" => $prod['cantidad']]);
+                $pedido->productos()->attach($prod['id'], ["cantidad" => $prod['cantidad']]);
             }
             // actualizar estado pedido
             $pedido->estado = 2;

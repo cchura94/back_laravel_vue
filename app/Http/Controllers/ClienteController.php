@@ -39,7 +39,7 @@ class ClienteController extends Controller
         $clie->correo = $request->correo;
         $clie->ci_nit = $request->ci_nit;
         $clie->save();
-        return response()->json($clie);         
+        return response()->json($clie, 201);         
     }
 
     /**
